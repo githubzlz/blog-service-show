@@ -1,0 +1,64 @@
+package com.zlz.blog.server.comment.controller;
+
+import com.zlz.blog.common.entity.comment.BlogComment;
+import com.zlz.blog.common.response.ResultSet;
+import com.zlz.blog.server.comment.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * @author zhulinzhong
+ * @version 1.0 CreateTime:2020-08-12 16:32
+ * @description 评论
+ */
+@RestController
+@RequestMapping("/comment")
+public class CommentController {
+
+    @Autowired
+    private CommentService commentService;
+
+    /**
+     * 创建评论
+     *
+     * @param blogComment
+     * @return
+     */
+    @PostMapping("create")
+    public ResultSet createComment(@RequestBody BlogComment blogComment) {
+        return commentService.createComment(blogComment);
+    }
+
+    /**
+     * 删除评论
+     *
+     * @param blogComment
+     * @return
+     */
+    @PostMapping("delete")
+    public ResultSet deleteComment(@RequestBody BlogComment blogComment) {
+        return commentService.deleteComment(blogComment);
+    }
+
+    /**
+     * 查看所有的评论
+     *
+     * @return
+     */
+    @GetMapping("allwebsitecomment")
+    ResultSet getAllWebSiteComment() {
+        return commentService.getAllWebSiteComment();
+    }
+
+    /**
+     * 查看文章评论
+     *
+     * @param blogId
+     * @return
+     */
+    @GetMapping("blogcomment/{id}")
+    ResultSet getBlogComment(@PathVariable("id") Long blogId) {
+        return commentService.getBlogComment(blogId);
+    }
+
+}

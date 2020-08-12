@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.blog.server.blog.mapper.ArticleMapper">
+
+    <resultMap id="article" type="com.zlz.blog.common.entity.article.BlogArticle">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="summary" property="summary"/>
+        <result column="author" property="author"/>
+        <result column="tag" property="tag"/>
+        <result column="type" property="type"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="provenance" property="provenance"/>
+        <result column="visible_strategy" property="visibleStrategy"/>
+        <result column="is_show" property="isShow"/>
+        <result column="creator" property="creator"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="last_modifier" property="lastModifier"/>
+        <result column="last_modified_time" property="lastModifiedTime"/>
+        <result column="img_src" property="imgSrc"/>
+        <result column="img_show" property="imgShow"/>
+        <association property="blogPublicInfos" javaType="com.zlz.blog.common.entity.article.BlogPublicInfo">
+            <id column="id" property="id"/>
+            <result column="blog_id" property="blogId"/>
+            <result column="stars" property="stars"/>
+            <result column="goods" property="goods"/>
+            <result column="comments" property="comments"/>
+            <result column="readings" property="readings"/>
+            <result column="collect" property="collect"/>
+        </association>
+    </resultMap>
+
+    <select id="selectListByIds" resultMap="article">
+        SELECT
+        a.*,p.*
+        FROM
+        blog_article a
+        LEFT JOIN blog_content c ON a.id = c.blog_id
+        LEFT JOIN blog_public_info p ON a.id = p.blog_id
+        WHERE a.id IN (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+    <select id="selectPage" resultMap="article">
+        SELECT
+        a.*,p.*
+        FROM
+        blog_article a
+        LEFT JOIN blog_content c ON a.id = c.blog_id
+        LEFT JOIN blog_public_info p ON a.id = p.blog_id
+        <where>
+            <if test="article.pageInfo != null and article.pageInfo.exclude != null">
+                <foreach collection="article.pageInfo.exclude" item="item">
+                    AND ${item.column} = #{item.value}
+                </foreach>
+            </if>
+            <if test="null != article.title and '' != article.title">
+                AND (
+                a.title like concat('%',#{article.title},'%')
+                OR a.summary like concat('%',#{article.title},'%')
+                )
+            </if>
+            <if test="null != article.type and '' != article.type and null == article.subType">
+                AND a.type like concat('%',#{article.type},'%')
+            </if>
+            <if test="null != article.subType and '' != article.subType">
+                AND a.type like concat('%',#{article.subType},'%')
+            </if>
+            <if test="null != article.tags">
+                <foreach collection="article.tags" item="item">
+                    AND a.tag like concat('%',#{item},'%')
+                </foreach>
+            </if>
+            <if test="null != article.blogContent">
+                <if test="null != article.blogContent.contentMd">
+                    AND (
+                    c.content_md like concat('%',#{article.search},'%')
+                    OR a.summary like concat('%',#{article.search},'%')
+                    OR a.title like concat('%',#{article.search},'%')
+                    )
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="timeShaft" resultMap="article">
+        SELECT a.*,
+               p.*
+        FROM blog_article a
+                 LEFT JOIN blog_content c ON a.id = c.blog_id
+                 LEFT JOIN blog_public_info p ON a.id = p.blog_id
+        ORDER BY a.created_time
+        LIMIT #{page},#{size}
+    </select>
+
+    <select id="selectCountByType" resultType="java.util.Map">
+        SELECT
+        <foreach collection="names" item="name" separator=",">
+            count( CASE WHEN blog_article.type like concat('%',#{name},'%') THEN 1 END) as #{name}
+        </foreach>
+        FROM blog_article;
+    </select>
+</mapper>
