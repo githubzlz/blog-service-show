@@ -24,7 +24,7 @@ public class CommentController {
      * @param blogComment
      * @return
      */
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResultSet createComment(@RequestBody BlogComment blogComment) {
         return commentService.createComment(blogComment);
     }
@@ -35,7 +35,7 @@ public class CommentController {
      * @param blogComment
      * @return
      */
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public ResultSet deleteComment(@RequestBody BlogComment blogComment) {
         return commentService.deleteComment(blogComment);
     }
@@ -45,8 +45,8 @@ public class CommentController {
      *
      * @return
      */
-    @GetMapping("allwebsitecomment")
-    ResultSet getAllWebSiteComment() {
+    @GetMapping("/allwebsitecomment")
+    public ResultSet getAllWebSiteComment() {
         return commentService.getAllWebSiteComment();
     }
 
@@ -56,8 +56,8 @@ public class CommentController {
      * @param blogId
      * @return
      */
-    @GetMapping("blogcomment/{id}")
-    ResultSet getBlogComment(@PathVariable("id") Long blogId) {
+    @GetMapping("/blogcomment/{id}")
+    public ResultSet getBlogComment(@PathVariable("id") Long blogId) {
         return commentService.getBlogComment(blogId);
     }
 

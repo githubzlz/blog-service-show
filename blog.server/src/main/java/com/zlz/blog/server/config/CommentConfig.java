@@ -1,6 +1,8 @@
 package com.zlz.blog.server.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,6 +17,9 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 public class CommentConfig {
+
+    private static final String DATE_TIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
+
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 允许通过的域名
@@ -42,5 +47,21 @@ public class CommentConfig {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         // paginationInterceptor.setLimit(你的最大单页限制数量，默认 500 条，小于 0 如 -1 不受限制);
         return paginationInterceptor;
+    }
+
+    /**
+     * 解决Jackson导致Long型数据精度丢失问题
+     *
+     * @return Jackson2ObjectMapperBuilderCustomizer
+     */
+    @Bean("jackson2ObjectMapperBuilderCustomizer")
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
+                .serializerByType(Long.class, ToStringSerializer.instance)
+                .serializerByType(Long.TYPE, ToStringSerializer.instance);
+//                .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(
+//                        DateTimeFormatter.ofPattern(DATE_TIME_FORMATTER)))
+//                .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(
+//                        DateTimeFormatter.ofPattern(DATE_TIME_FORMATTER)));
     }
 }

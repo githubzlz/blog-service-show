@@ -1,7 +1,13 @@
 package com.zlz.blog.common.entity.comment;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zlz.blog.common.entity.common.BaseEntity;
+import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author zhulinzhong
@@ -9,16 +15,13 @@ import com.zlz.blog.common.entity.common.BaseEntity;
  * @description 评论
  */
 @TableName("blog_comment")
+@Data
 public class BlogComment extends BaseEntity {
 
     private static final long serialVersionUID = -6047188176899466496L;
 
+    @TableId(type = IdType.ID_WORKER)
     private Long id;
-
-    /**
-     * 关联id
-     */
-    private Long relationId;
 
     /**
      * 评论人
@@ -43,7 +46,8 @@ public class BlogComment extends BaseEntity {
     /**
      * 点赞
      */
-    private Long like;
+    @TableField(value = "likes")
+    private Long likes;
 
     /**
      * 自关联id
@@ -64,4 +68,15 @@ public class BlogComment extends BaseEntity {
      * 层级 0：盖楼层 1：回复层
      */
     private Integer level;
+
+    /**
+     * 下级评论
+     */
+    @TableField(exist = false)
+    private List<BlogComment> children;
+
+    /**
+     * 回复数量
+     */
+    private Long commentNum;
 }
