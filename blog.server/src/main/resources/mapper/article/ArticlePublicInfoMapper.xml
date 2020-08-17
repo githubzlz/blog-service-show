@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.blog.server.blog.mapper.ArticlePublicInfoMapper">
+
+    <update id="addView">
+        UPDATE blog_public_info
+        SET readings = readings + 1
+        WHERE blog_id = #{blogId}
+    </update>
+
+    <update id="addGoods">
+        UPDATE blog_public_info
+        SET goods = goods + 1
+        WHERE blog_id = #{blogId}
+    </update>
+
+    <update id="removeGoods">
+        UPDATE blog_public_info
+        SET goods = goods - 1
+        WHERE blog_id = #{blogId}
+    </update>
+</mapper>

@@ -3,9 +3,11 @@ package com.zlz.blog.server.comment.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.zlz.blog.common.entity.comment.BlogComment;
+import com.zlz.blog.common.entity.comment.WebLeaveWord;
 import com.zlz.blog.common.enums.comment.CommentTypeEnum;
 import com.zlz.blog.common.response.ResultSet;
 import com.zlz.blog.server.comment.mapper.CommentMapper;
+import com.zlz.blog.server.comment.mapper.WebLeaveWordMapper;
 import com.zlz.blog.server.comment.service.CommentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Resource
     private CommentMapper commentMapper;
+    @Resource
+    private WebLeaveWordMapper webLeaveWordMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -107,5 +111,14 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResultSet getBlogComment(Long blogId) {
         return null;
+    }
+
+    @Override
+    public ResultSet personalLetter(WebLeaveWord webLeaveWord) {
+        int insert = webLeaveWordMapper.insert(webLeaveWord);
+        if (insert != 1) {
+            return ResultSet.error("私信失败,请重试");
+        }
+        return ResultSet.success("发送成功,博主看到您的私信后会即刻回复");
     }
 }

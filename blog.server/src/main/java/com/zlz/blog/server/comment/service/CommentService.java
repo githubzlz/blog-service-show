@@ -1,6 +1,7 @@
 package com.zlz.blog.server.comment.service;
 
 import com.zlz.blog.common.entity.comment.BlogComment;
+import com.zlz.blog.common.entity.comment.WebLeaveWord;
 import com.zlz.blog.common.response.ResultSet;
 
 /**
@@ -40,4 +41,12 @@ public interface CommentService {
      * @return
      */
     ResultSet getBlogComment(Long blogId);
+
+    /**
+     * 网站私信
+     *
+     * @param webLeaveWord
+     * @return
+     */
+    ResultSet personalLetter(WebLeaveWord webLeaveWord);
 }

@@ -54,4 +54,37 @@ public class ArticlePublicInfoServiceImpl implements ArticlePublicInfoService {
         }
         return ResultSet.success(blogPublicInfo);
     }
+
+    @Override
+    public boolean addView(Long blogId) {
+        if (null == blogId) {
+            return false;
+        }
+        publicInfoMapper.addView(blogId);
+        return true;
+    }
+
+    @Override
+    public ResultSet addGoods(Long blogId) {
+        if (null == blogId) {
+            return ResultSet.error("点赞失败");
+        }
+        int i = publicInfoMapper.addGoods(blogId);
+        if (i != 1) {
+            return ResultSet.error("点赞失败");
+        }
+        return ResultSet.success("点赞成功");
+    }
+
+    @Override
+    public ResultSet removeGoods(Long blogId) {
+        if (null == blogId) {
+            return ResultSet.error("取消点赞失败");
+        }
+        int i = publicInfoMapper.removeGoods(blogId);
+        if (i != 1) {
+            return ResultSet.error("取消点赞失败");
+        }
+        return ResultSet.success("取消点赞成功");
+    }
 }

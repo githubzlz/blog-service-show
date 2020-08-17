@@ -33,6 +33,14 @@ public interface ArticleService {
     ResultSet selectList(BlogArticle blogArticle, HttpServletRequest request);
 
     /**
+     * 查询根据时间归档
+     *
+     * @param num
+     * @return
+     */
+    ResultSet filing(Integer num);
+
+    /**
      * 时间轴
      *
      * @param blogArticle
@@ -46,4 +54,20 @@ public interface ArticleService {
      * @return
      */
     ResultSet getTotalBlog();
+
+    /**
+     * 增加浏览量
+     *
+     * @param id
+     */
+    void addViewNumber(Long id);
+
+    /**
+     * 点赞
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    ResultSet addGoods(Long id, Integer type);
 }

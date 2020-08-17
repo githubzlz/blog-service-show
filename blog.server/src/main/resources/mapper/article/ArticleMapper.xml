@@ -104,4 +104,7 @@
         </foreach>
         FROM blog_article;
     </select>
+
+    <select id="">
+    </select>
 </mapper>

@@ -44,5 +44,11 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      */
     List<BlogArticle> selectListByIds(@Param("ids") List<Long> ids);
 
+    /**
+     * 查询各个分类的数量
+     *
+     * @param names
+     * @return
+     */
     Map<String, Long> selectCountByType(@Param("names") List<String> names);
 }

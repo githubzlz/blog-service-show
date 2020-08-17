@@ -1,10 +1,13 @@
 package com.zlz.blog.server.comment.controller;
 
 import com.zlz.blog.common.entity.comment.BlogComment;
+import com.zlz.blog.common.entity.comment.WebLeaveWord;
 import com.zlz.blog.common.response.ResultSet;
 import com.zlz.blog.server.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author zhulinzhong
@@ -61,4 +64,14 @@ public class CommentController {
         return commentService.getBlogComment(blogId);
     }
 
+    /**
+     * 私信
+     *
+     * @param webLeaveWord
+     * @return
+     */
+    @PostMapping("/personal/letter")
+    public ResultSet personalLetter(@RequestBody @Valid WebLeaveWord webLeaveWord) {
+        return commentService.personalLetter(webLeaveWord);
+    }
 }

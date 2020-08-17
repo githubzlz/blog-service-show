@@ -28,4 +28,28 @@ public interface ArticlePublicInfoService {
      * @return ResultSet
      */
     ResultSet queryPublicInfo(Long blogId);
+
+    /**
+     * 增加浏览量
+     *
+     * @param blogId
+     * @return
+     */
+    boolean addView(Long blogId);
+
+    /**
+     * 点赞
+     *
+     * @param blogId
+     * @return
+     */
+    ResultSet addGoods(Long blogId);
+
+    /**
+     * 取消点赞
+     *
+     * @param blogId
+     * @return
+     */
+    ResultSet removeGoods(Long blogId);
 }

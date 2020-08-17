@@ -34,6 +34,18 @@ public class ArticleController {
     }
 
     /**
+     * 时间归档查询
+     *
+     * @param num
+     * @return
+     */
+    @GetMapping("/timefiling/{num}")
+    public ResultSet filing(@PathVariable("num") Integer num) {
+        return articleService.filing(num);
+    }
+
+
+    /**
      * 时间轴
      *
      * @param blogArticle
@@ -64,5 +76,27 @@ public class ArticleController {
     @GetMapping("/queryarticle/{id}")
     public ResultSet selectArticle(@PathVariable("id") Long id, HttpServletRequest request) {
         return articleService.queryArticle(id, request);
+    }
+
+    /**
+     * 增加浏览量
+     *
+     * @param id
+     */
+    @GetMapping("/addviewnumber/{id}")
+    public void addViewNumber(@PathVariable Long id) {
+        articleService.addViewNumber(id);
+    }
+
+    /**
+     * 点赞
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    @GetMapping("/recommend/{id}/{type}")
+    public ResultSet addGoods(@PathVariable Long id, @PathVariable Integer type) {
+        return articleService.addGoods(id, type);
     }
 }
