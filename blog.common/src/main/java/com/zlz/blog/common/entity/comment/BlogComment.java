@@ -29,6 +29,11 @@ public class BlogComment extends BaseEntity {
     private Long userId;
 
     /**
+     * 文章id
+     */
+    private Long blogId;
+
+    /**
      * 用户名
      */
     private String username;

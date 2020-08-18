@@ -5,6 +5,7 @@ import com.zlz.blog.common.response.ResultSet;
 import com.zlz.blog.server.blog.service.BlogRecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +24,13 @@ public class BlogRecommendController {
     private BlogRecommendService blogRecommendService;
 
     /**
-     * 侧栏推荐
+     * 热门推荐
      *
      * @return
      */
-    @GetMapping("side")
-    public ResultSet<List<BlogRecommend>> getSideRecommend() {
-        return blogRecommendService.getSideRecommend();
+    @GetMapping("hot/{num}")
+    public ResultSet<List<BlogRecommend>> getHotBlog(@PathVariable Long num) {
+        return blogRecommendService.getHotBlog(num);
     }
 
     /**
@@ -40,5 +41,16 @@ public class BlogRecommendController {
     @GetMapping("homepage")
     public ResultSet<BlogRecommend> getHomePageRecommend() {
         return blogRecommendService.getHomePageRecommend();
+    }
+
+    /**
+     * 侧栏推荐
+     *
+     * @param num
+     * @return
+     */
+    @GetMapping("/{num}")
+    public ResultSet<List<BlogRecommend>> sideRecommend(@PathVariable Long num) {
+        return blogRecommendService.getSideRecommend(num);
     }
 }

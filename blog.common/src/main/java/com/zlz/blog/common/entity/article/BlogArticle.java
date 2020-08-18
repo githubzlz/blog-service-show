@@ -96,6 +96,17 @@ public class BlogArticle extends BaseEntity {
     private Integer imgShow;
 
     /**
+     * 文章类型
+     */
+    private Integer blogType;
+
+    /**
+     * 热度
+     */
+    @TableField(exist = false)
+    private Long orderNum;
+
+    /**
      * 标签的集合
      */
     @TableField(exist = false)

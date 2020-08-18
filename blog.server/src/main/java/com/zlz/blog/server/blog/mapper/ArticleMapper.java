@@ -25,7 +25,7 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @param article article
      * @return IPage
      */
-    IPage<BlogArticle> selectPage(IPage<BlogArticle> page, @Param("article") BlogArticle article);
+    IPage<BlogArticle> selectPage(IPage<BlogArticle> page, @Param("article") BlogArticle article, @Param("type") Integer type);
 
     /**
      * 时间轴查询
@@ -51,4 +51,12 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @return
      */
     Map<String, Long> selectCountByType(@Param("names") List<String> names);
+
+    /**
+     * 根据热度排序
+     *
+     * @param num
+     * @return
+     */
+    List<BlogArticle> selectListOrderByHot(@Param("num") Long num);
 }

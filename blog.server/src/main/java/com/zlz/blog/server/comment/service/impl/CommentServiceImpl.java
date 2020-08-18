@@ -82,13 +82,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResultSet getAllWebSiteComment() {
+    public ResultSet getAllWebSiteComment(Long blogId) {
 
         //查询楼层
         QueryWrapper<BlogComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", CommentTypeEnum.WEBSITE.getCode())
                 .eq("level", 1)
                 .orderByAsc("created_time");
+        if (blogId != null) {
+            queryWrapper.eq("blog_id", blogId);
+        }
         List<BlogComment> floors = commentMapper.selectList(queryWrapper);
         if (floors.isEmpty()) {
             return ResultSet.success("查询成功");
@@ -106,11 +109,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return ResultSet.success("查询成功", floors);
-    }
-
-    @Override
-    public ResultSet getBlogComment(Long blogId) {
-        return null;
     }
 
     @Override

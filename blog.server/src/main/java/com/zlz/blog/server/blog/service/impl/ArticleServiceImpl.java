@@ -75,14 +75,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResultSet selectList(BlogArticle blogArticle, HttpServletRequest request) {
+    public ResultSet selectList(BlogArticle blogArticle, Integer type) {
 
         //获取并设置筛选条件
         PageInfo pageInfo = blogArticle.getPageInfo();
         excludeColumn(pageInfo, blogArticle);
 
         //返回结果转换并返回消息
-        IPage<BlogArticle> iPage = articleMapper.selectPage(PageUtil.getIPage(pageInfo), blogArticle);
+        IPage<BlogArticle> iPage = articleMapper.selectPage(PageUtil.getIPage(pageInfo), blogArticle, type);
         return ResultSet.success(PageUtil.setPageInfo(iPage, blogArticle.getPageInfo()));
     }
 

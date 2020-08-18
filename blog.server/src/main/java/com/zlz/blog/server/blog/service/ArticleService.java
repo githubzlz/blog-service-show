@@ -27,10 +27,10 @@ public interface ArticleService {
      * 查看所有文章信息
      *
      * @param blogArticle 分页信息
-     * @param request     请求信息
+     * @param type        类型
      * @return ResultSet
      */
-    ResultSet selectList(BlogArticle blogArticle, HttpServletRequest request);
+    ResultSet selectList(BlogArticle blogArticle, Integer type);
 
     /**
      * 查询根据时间归档

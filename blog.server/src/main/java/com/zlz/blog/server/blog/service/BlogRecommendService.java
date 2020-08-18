@@ -13,11 +13,20 @@ import java.util.List;
 public interface BlogRecommendService {
 
     /**
-     * 获取侧边栏推荐
+     * 热门推荐
      *
+     * @param num
      * @return
      */
-    ResultSet<List<BlogRecommend>> getSideRecommend();
+    ResultSet<List<BlogRecommend>> getHotBlog(Long num);
+
+    /**
+     * 获取侧边栏推荐
+     *
+     * @param num
+     * @return
+     */
+    ResultSet<List<BlogRecommend>> getSideRecommend(Long num);
 
     /**
      * 获取主页推荐

@@ -49,19 +49,8 @@ public class CommentController {
      * @return
      */
     @GetMapping("/allwebsitecomment")
-    public ResultSet getAllWebSiteComment() {
-        return commentService.getAllWebSiteComment();
-    }
-
-    /**
-     * 查看文章评论
-     *
-     * @param blogId
-     * @return
-     */
-    @GetMapping("/blogcomment/{id}")
-    public ResultSet getBlogComment(@PathVariable("id") Long blogId) {
-        return commentService.getBlogComment(blogId);
+    public ResultSet getAllWebSiteComment(@RequestParam(required = false) Long blogId) {
+        return commentService.getAllWebSiteComment(blogId);
     }
 
     /**

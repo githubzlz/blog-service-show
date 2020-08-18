@@ -28,12 +28,20 @@ public class BlogRecommendServiceImpl implements BlogRecommendService {
     private ArticleMapper articleMapper;
 
     @Override
-    public ResultSet<List<BlogRecommend>> getSideRecommend() {
+    public ResultSet<List<BlogRecommend>> getHotBlog(Long num) {
+        return ResultSet.success("查询成功", articleMapper.selectListOrderByHot(num));
+    }
+
+    @Override
+    public ResultSet<List<BlogRecommend>> getSideRecommend(Long num) {
         QueryWrapper<BlogRecommend> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("recommend_type", RecommendTypeEnum.SIDE.getCode());
         List<BlogRecommend> blogRecommends = blogRecommendMapper.selectList(queryWrapper);
         List<Long> ids = blogRecommends.stream().map(BlogRecommend::getBlogId).collect(Collectors.toList());
-        List<BlogArticle> blogArticles = articleMapper.selectListByIds(ids);
+
+        QueryWrapper<BlogArticle> blogArticleQueryWrapper = new QueryWrapper<>();
+        blogArticleQueryWrapper.in("id", ids).select("title").last("limit " + num);
+        List<BlogArticle> blogArticles = articleMapper.selectList(blogArticleQueryWrapper);
         return ResultSet.success(blogArticles);
     }
 

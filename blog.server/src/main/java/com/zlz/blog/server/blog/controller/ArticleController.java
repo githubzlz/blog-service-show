@@ -25,12 +25,12 @@ public class ArticleController {
      * 分页查询,模糊查询
      *
      * @param blogArticle blogArticle
-     * @param request     request
+     * @param type        type
      * @return ResultSet
      */
-    @PostMapping("/list")
-    public ResultSet selectAll(@RequestBody BlogArticle blogArticle, HttpServletRequest request) {
-        return articleService.selectList(blogArticle, request);
+    @PostMapping("/list/{type}")
+    public ResultSet selectAll(@RequestBody BlogArticle blogArticle, @PathVariable Integer type) {
+        return articleService.selectList(blogArticle, type);
     }
 
     /**

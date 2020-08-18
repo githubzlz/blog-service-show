@@ -30,17 +30,10 @@ public interface CommentService {
     /**
      * 查看所有的评论
      *
-     * @return
-     */
-    ResultSet getAllWebSiteComment();
-
-    /**
-     * 查看文章评论
-     *
      * @param blogId
      * @return
      */
-    ResultSet getBlogComment(Long blogId);
+    ResultSet getAllWebSiteComment(Long blogId);
 
     /**
      * 网站私信

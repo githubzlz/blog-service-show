@@ -20,6 +20,8 @@
         <result column="last_modified_time" property="lastModifiedTime"/>
         <result column="img_src" property="imgSrc"/>
         <result column="img_show" property="imgShow"/>
+        <result column="blog_type" property="blogType"/>
+        <result column="orderNum" property="orderNum"/>
         <association property="blogPublicInfos" javaType="com.zlz.blog.common.entity.article.BlogPublicInfo">
             <id column="id" property="id"/>
             <result column="blog_id" property="blogId"/>
@@ -75,15 +77,16 @@
                     AND a.tag like concat('%',#{item},'%')
                 </foreach>
             </if>
-            <if test="null != article.blogContent">
-                <if test="null != article.blogContent.contentMd">
-                    AND (
-                    c.content_md like concat('%',#{article.search},'%')
-                    OR a.summary like concat('%',#{article.search},'%')
-                    OR a.title like concat('%',#{article.search},'%')
-                    )
-                </if>
+            <if test="null != article.search">
+                AND (
+                c.content_md like concat('%',#{article.search},'%')
+                OR a.summary like concat('%',#{article.search},'%')
+                OR a.title like concat('%',#{article.search},'%')
+                OR a.type like concat('%',#{article.search},'%')
+                OR a.tag like concat('%',#{article.search},'%')
+                )
             </if>
+            AND a.blog_type = #{type}
         </where>
     </select>
 
@@ -105,6 +108,14 @@
         FROM blog_article;
     </select>
 
-    <select id="">
+    <select id="selectListOrderByHot" resultType="com.zlz.blog.common.entity.article.BlogArticle">
+        SELECT a.*,
+               p.*,
+               p.goods * 1.5 + p.readings + p.comments * 2 as orderNum
+        FROM blog_article a
+                 LEFT JOIN blog_content c ON a.id = c.blog_id
+                 LEFT JOIN blog_public_info p ON a.id = p.blog_id
+        ORDER BY orderNum DESC
+        LIMIT #{num}
     </select>
 </mapper>
