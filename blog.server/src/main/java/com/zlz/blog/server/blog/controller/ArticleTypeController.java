@@ -28,9 +28,11 @@ public class ArticleTypeController {
      * @param request
      * @return
      */
-    @GetMapping("/queryblogtype/{operate}")
-    public ResultSet queryBlogType(@PathVariable("operate") Integer operate, HttpServletRequest request) {
-        return articleTypeService.queryBlogType(request, operate);
+    @GetMapping("/queryblogtype/{operate}/{type}")
+    public ResultSet queryBlogType(@PathVariable("operate") Integer operate,
+                                   @PathVariable("type") Integer type,
+                                   HttpServletRequest request) {
+        return articleTypeService.queryBlogType(request, operate, type);
     }
 
     /**

@@ -159,4 +159,19 @@ public class BlogArticle extends BaseEntity {
      */
     @TableField(exist = false)
     private Integer direction;
+
+    /**
+     * 开始时间
+     */
+    @TableField(exist = false)
+    private String startTime;
+
+    /**
+     * 结束时间
+     */
+    @TableField(exist = false)
+    private String endTime;
+
+    @TableField(exist = false)
+    private BlogRecommend blogRecommend;
 }

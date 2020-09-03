@@ -26,8 +26,10 @@ public class BlogFile extends BaseEntity {
 
     private String fileType;
 
-    private String note;
+    private String fileSize;
 
     private String fileUrl;
+
+    private String md5;
 
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zhulinzhong
@@ -30,9 +29,8 @@ public class ArticleTagServiceImpl implements ArticleTagService {
     public ResultSet getTags() {
         //查询有效的标签分类
         QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("name");
+        queryWrapper.select("name", "type");
         List<BlogTag> blogTags = tagMapper.selectList(queryWrapper);
-        List<String> blogTagNames = blogTags.stream().map(BlogTag::getName).collect(Collectors.toList());
-        return ResultSet.success(blogTagNames);
+        return ResultSet.success(blogTags);
     }
 }

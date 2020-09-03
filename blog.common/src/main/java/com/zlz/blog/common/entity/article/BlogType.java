@@ -53,4 +53,9 @@ public class BlogType extends BaseEntity {
      * 0 启用 1 停用
      */
     private Integer state;
+
+    /**
+     * 类型 0 技术 1 其他
+     */
+    private Integer type;
 }

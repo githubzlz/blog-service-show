@@ -9,7 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author zhulinzhong
@@ -21,26 +26,26 @@ public class WebUtil {
     /**
      * 文件上传方法
      *
-     * @param file 上传的文件
+     * @param bytes 上传的文件
      * @return 操作的消息
      */
-    public static String uploadFile(MultipartFile file, FastdfsUtil fastdfsUtil) {
+    public static String uploadFile(byte[] bytes, String fileName, FastdfsUtil fastdfsUtil) {
         String filePath = "";
-        if (file != null && !file.isEmpty()) {
+        if (bytes.length != 0) {
             try {
-                byte[] bytes = file.getBytes();
-                String filename = file.getOriginalFilename();
                 log.info("文件大小[{}]", bytes.length);
-                String url = fastdfsUtil.uploadFile(bytes, filename);
-                filePath = "http://" + CommonConstants.FASTDFS_ADDRESS + "/" + url;
+                String url = fastdfsUtil.uploadFile(bytes, fileName);
+                filePath = CommonConstants.FASTDFS_ADDRESS + "/" + url;
                 log.info("文件上传成功，文件地址:" + url);
-            } catch (IOException | MyException e) {
+            } catch (IOException | MyException e ) {
                 log.error("文件上传异常，上传失败[{}]", e);
                 return filePath;
             }
         }
         return filePath;
     }
+
+
 
     /**
      * 下载文件的方法(将文件写到输出流)

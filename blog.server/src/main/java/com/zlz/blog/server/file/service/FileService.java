@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author zhulinzhong
@@ -19,7 +20,7 @@ public interface FileService {
      * @return 上传文件返回消息封装的对象
      * @throws IOException io异常
      */
-    ResultSet uploadImage(MultipartFile file);
+    ResultSet uploadImage(MultipartFile file) throws IOException, NoSuchAlgorithmException;
 
     /**
      * 下载文件

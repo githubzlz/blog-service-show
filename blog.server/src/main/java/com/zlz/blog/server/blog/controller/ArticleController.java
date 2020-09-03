@@ -39,9 +39,9 @@ public class ArticleController {
      * @param num
      * @return
      */
-    @GetMapping("/timefiling/{num}")
-    public ResultSet filing(@PathVariable("num") Integer num) {
-        return articleService.filing(num);
+    @GetMapping("/timefiling/{num}/{type}")
+    public ResultSet filing(@PathVariable("num") Integer num, @PathVariable("type") Integer type) {
+        return articleService.filing(num, type);
     }
 
 

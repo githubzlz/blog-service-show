@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author zhulinzhong
@@ -33,7 +34,7 @@ public class FileController {
      * @throws IOException IOException
      */
     @PostMapping("/image/upload")
-    public ResultSet upload(MultipartFile filename, HttpServletRequest request) {
+    public ResultSet upload(MultipartFile filename, HttpServletRequest request) throws IOException, NoSuchAlgorithmException {
         return fileService.uploadImage(filename);
     }
 

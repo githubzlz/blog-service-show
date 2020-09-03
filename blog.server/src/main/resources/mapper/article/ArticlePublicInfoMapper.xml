@@ -19,4 +19,16 @@
         SET goods = goods - 1
         WHERE blog_id = #{blogId}
     </update>
+
+    <update id="addRecommend">
+        UPDATE blog_public_info
+        SET comments = comments + 1
+        WHERE blog_id = #{blogId}
+    </update>
+
+    <update id="removeRecommend">
+        UPDATE blog_public_info
+        SET comments = comments - 1
+        WHERE blog_id = #{blogId}
+    </update>
 </mapper>

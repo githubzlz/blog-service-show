@@ -5,6 +5,7 @@ import com.zlz.blog.common.entity.article.BlogArticle;
 import com.zlz.blog.common.entity.article.BlogRecommend;
 import com.zlz.blog.common.enums.article.RecommendTypeEnum;
 import com.zlz.blog.common.response.ResultSet;
+import com.zlz.blog.common.util.SqlResultUtil;
 import com.zlz.blog.server.blog.mapper.ArticleMapper;
 import com.zlz.blog.server.blog.mapper.BlogRecommendMapper;
 import com.zlz.blog.server.blog.service.BlogRecommendService;
@@ -39,19 +40,20 @@ public class BlogRecommendServiceImpl implements BlogRecommendService {
         List<BlogRecommend> blogRecommends = blogRecommendMapper.selectList(queryWrapper);
         List<Long> ids = blogRecommends.stream().map(BlogRecommend::getBlogId).collect(Collectors.toList());
 
+        if(ids.isEmpty()){
+            return ResultSet.success("查询为空");
+        }
+
         QueryWrapper<BlogArticle> blogArticleQueryWrapper = new QueryWrapper<>();
-        blogArticleQueryWrapper.in("id", ids).select("title").last("limit " + num);
+        blogArticleQueryWrapper.in("id", ids).select("title", "id").last("limit " + num);
         List<BlogArticle> blogArticles = articleMapper.selectList(blogArticleQueryWrapper);
         return ResultSet.success(blogArticles);
     }
 
     @Override
     public ResultSet<BlogRecommend> getHomePageRecommend() {
-        QueryWrapper<BlogRecommend> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("recommend_type", RecommendTypeEnum.HOMEPAGE.getCode());
-        List<BlogRecommend> blogRecommends = blogRecommendMapper.selectList(queryWrapper);
-        List<Long> ids = blogRecommends.stream().map(BlogRecommend::getBlogId).collect(Collectors.toList());
-        List<BlogArticle> blogArticles = articleMapper.selectListByIds(ids);
+        List<BlogArticle> blogArticles = articleMapper.selectRecommendBlog();
         return ResultSet.success(blogArticles);
     }
+
 }

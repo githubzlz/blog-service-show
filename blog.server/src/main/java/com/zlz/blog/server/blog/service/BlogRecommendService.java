@@ -34,4 +34,6 @@ public interface BlogRecommendService {
      * @return
      */
     ResultSet<BlogRecommend> getHomePageRecommend();
+
+
 }

@@ -2,6 +2,7 @@ package com.zlz.blog.server.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zlz.blog.common.constants.article.ArticleConstants;
 import com.zlz.blog.common.entity.article.BlogArticle;
 import com.zlz.blog.common.entity.article.BlogContent;
 import com.zlz.blog.common.entity.article.BlogPublicInfo;
@@ -87,9 +88,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResultSet filing(Integer num) {
+    public ResultSet filing(Integer num, Integer type) {
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("id", "created_time").orderByAsc("created_time");
+        queryWrapper.eq("blog_type", type).select("id", "created_time", "blog_type").orderByAsc("created_time");
         List<BlogArticle> blogArticles = articleMapper.selectList(queryWrapper);
         if (blogArticles.isEmpty()) {
             return ResultSet.success();
@@ -154,6 +155,14 @@ public class ArticleServiceImpl implements ArticleService {
         if (blogArticles.isEmpty()) {
             return ResultSet.success("查询成功");
         }
+
+        blogArticles.sort(new Comparator<BlogArticle>() {
+            @Override
+            public int compare(BlogArticle o1, BlogArticle o2) {
+                return o1.getCreatedTime().compareTo(o2.getCreatedTime());
+            }
+        });
+
         long time = DateUtil.getZeroDate(blogArticles.get(0).getCreatedTime()).getTime() + 86400000L;
         int direction = 0;
         for (BlogArticle article : blogArticles) {
@@ -166,7 +175,20 @@ public class ArticleServiceImpl implements ArticleService {
                 article.setDirection(direction);
             }
         }
-        return ResultSet.success("查询成功", blogArticles);
+
+        blogArticles.sort(new Comparator<BlogArticle>() {
+            @Override
+            public int compare(BlogArticle o1, BlogArticle o2) {
+                return o2.getCreatedTime().compareTo(o1.getCreatedTime());
+            }
+        });
+        Map<String, Object> map = new HashMap<>();
+        QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("is_deleted", ArticleConstants.IS_NOT_DELETED);
+        Integer count = articleMapper.selectCount(queryWrapper);
+        map.put("list", blogArticles);
+        map.put("count", count);
+        return ResultSet.success("查询成功", map);
     }
 
     @Override

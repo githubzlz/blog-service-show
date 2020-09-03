@@ -34,10 +34,11 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     private ArticleMapper articleMapper;
 
     @Override
-    public ResultSet queryBlogType(HttpServletRequest request, Integer operate) {
+    public ResultSet queryBlogType(HttpServletRequest request, Integer operate, Integer type) {
 
         //查询所有分类
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type", type);
         if (OperateTypeEnum.MANAGEMENT.getCode() != operate) {
             queryWrapper.eq("state", ArticleConstants.IN_USE);
         }
@@ -51,17 +52,26 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     public ResultSet queryBlogTypeNumber() {
         //查询所有分类
         QueryWrapper<BlogType> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("state", ArticleConstants.IN_USE).eq("level", 1);
+        queryWrapper.eq("state", ArticleConstants.IN_USE).eq("level", 1).select("type_name", "type", "id");
         List<BlogType> blogTypes = articleTypeMapper.selectList(queryWrapper);
         List<String> names = blogTypes.stream().map(BlogType::getTypeName).collect(Collectors.toList());
         Map<String, Long> stringIntegerMap = articleMapper.selectCountByType(names);
         List<JSONObject> result = new ArrayList<>();
         stringIntegerMap.forEach((key, value) -> {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.putOnce("type", key);
+            jsonObject.putOnce("typeName", key);
             jsonObject.putOnce("number", value);
             result.add(jsonObject);
         });
+
+        result.forEach(item -> {
+            blogTypes.forEach(item2 -> {
+                if (item.getStr("typeName").equals(item2.getTypeName())) {
+                    item.put("type", item2.getType());
+                }
+            });
+        });
+
         return ResultSet.success(result);
     }
 

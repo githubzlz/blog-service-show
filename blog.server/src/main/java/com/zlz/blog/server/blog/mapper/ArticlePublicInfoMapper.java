@@ -36,4 +36,8 @@ public interface ArticlePublicInfoMapper extends BaseMapper<BlogPublicInfo> {
      * @return
      */
     int removeGoods(@Param("blogId") Long blogId);
+
+    int addRecommend(@Param("blogId") Long blogId);
+
+    int removeRecommend(@Param("blogId") Long blogId);
 }

@@ -37,4 +37,9 @@ public class BlogTag extends BaseEntity implements Serializable {
      * 类型id
      */
     private Long typeId;
+
+    /**
+     * 标签所属分类
+     */
+    private Integer type;
 }

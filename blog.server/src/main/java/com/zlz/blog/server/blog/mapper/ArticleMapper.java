@@ -59,4 +59,6 @@ public interface ArticleMapper extends BaseMapper<BlogArticle> {
      * @return
      */
     List<BlogArticle> selectListOrderByHot(@Param("num") Long num);
+
+    List<BlogArticle> selectRecommendBlog();
 }

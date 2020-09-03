@@ -18,7 +18,7 @@ public interface ArticleTypeService {
      * @param operate
      * @return
      */
-    ResultSet queryBlogType(HttpServletRequest request, Integer operate);
+    ResultSet queryBlogType(HttpServletRequest request, Integer operate, Integer type);
 
     /**
      * 查询分类与文章数量

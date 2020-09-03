@@ -29,4 +29,8 @@ public class BlogRecommend extends BaseEntity {
      */
     private Integer recommendType;
 
+    /**
+     * banner
+     */
+    private String imageUrl;
 }

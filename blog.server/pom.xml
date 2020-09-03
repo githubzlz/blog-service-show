@@ -15,6 +15,13 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.12</version>
+        </dependency>
+
         <dependency>
             <groupId>com.zlz.blog</groupId>
             <artifactId>blog.common</artifactId>

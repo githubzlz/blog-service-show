@@ -6,6 +6,8 @@ import com.zlz.blog.common.entity.comment.BlogComment;
 import com.zlz.blog.common.entity.comment.WebLeaveWord;
 import com.zlz.blog.common.enums.comment.CommentTypeEnum;
 import com.zlz.blog.common.response.ResultSet;
+import com.zlz.blog.server.blog.mapper.ArticleMapper;
+import com.zlz.blog.server.blog.mapper.ArticlePublicInfoMapper;
 import com.zlz.blog.server.comment.mapper.CommentMapper;
 import com.zlz.blog.server.comment.mapper.WebLeaveWordMapper;
 import com.zlz.blog.server.comment.service.CommentService;
@@ -28,6 +30,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
     @Resource
     private WebLeaveWordMapper webLeaveWordMapper;
+    @Resource
+    private ArticlePublicInfoMapper articlePublicInfoMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -68,12 +72,17 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-
         int insert = commentMapper.insert(blogComment);
-        if (insert != 0) {
-            return ResultSet.success("评论成功", blogComment);
+        if (insert != 1) {
+            return ResultSet.error("评论失败", blogComment);
         }
-        return ResultSet.error("评论失败");
+
+        if(blogComment.getBlogId() != null && blogComment.getBlogId() != 0){
+            //添加文章的评论数量
+            articlePublicInfoMapper.addRecommend(blogComment.getBlogId());
+        }
+
+        return ResultSet.success("评论成功", blogComment);
     }
 
     @Override

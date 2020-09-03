@@ -9,5 +9,5 @@ public class CommonConstants {
     /**
      * 文件服务器地址
      */
-    public static final String FASTDFS_ADDRESS = "192.168.233.101";
+    public static final String FASTDFS_ADDRESS = "https://www.zlztsb.com";
 }

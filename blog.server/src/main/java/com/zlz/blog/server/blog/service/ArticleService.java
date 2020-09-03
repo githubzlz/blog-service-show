@@ -36,9 +36,10 @@ public interface ArticleService {
      * 查询根据时间归档
      *
      * @param num
+     * @param type
      * @return
      */
-    ResultSet filing(Integer num);
+    ResultSet filing(Integer num, Integer type);
 
     /**
      * 时间轴
