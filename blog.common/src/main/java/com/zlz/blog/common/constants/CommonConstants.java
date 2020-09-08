@@ -10,4 +10,14 @@ public class CommonConstants {
      * 文件服务器地址
      */
     public static final String FASTDFS_ADDRESS = "https://www.zlztsb.com";
+
+    /**
+     * 所有的数据
+     */
+    public static final Integer All = 1;
+
+    /**
+     * 今天的数据
+     */
+    public static final Integer TODAY = 0;
 }

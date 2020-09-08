@@ -11,12 +11,15 @@ import com.zlz.blog.server.blog.mapper.ArticlePublicInfoMapper;
 import com.zlz.blog.server.comment.mapper.CommentMapper;
 import com.zlz.blog.server.comment.mapper.WebLeaveWordMapper;
 import com.zlz.blog.server.comment.service.CommentService;
+import com.zlz.blog.server.manage.service.WebStatisticsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhulinzhong
@@ -32,6 +35,8 @@ public class CommentServiceImpl implements CommentService {
     private WebLeaveWordMapper webLeaveWordMapper;
     @Resource
     private ArticlePublicInfoMapper articlePublicInfoMapper;
+    @Resource
+    private WebStatisticsService webStatisticsService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -82,6 +87,9 @@ public class CommentServiceImpl implements CommentService {
             articlePublicInfoMapper.addRecommend(blogComment.getBlogId());
         }
 
+        //添加网站总评论数量
+        webStatisticsService.addMessageToday();
+
         return ResultSet.success("评论成功", blogComment);
     }
 
@@ -127,5 +135,19 @@ public class CommentServiceImpl implements CommentService {
             return ResultSet.error("私信失败,请重试");
         }
         return ResultSet.success("发送成功,博主看到您的私信后会即刻回复");
+    }
+
+    @Override
+    public ResultSet commentNumInfo(){
+        QueryWrapper<BlogComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type", CommentTypeEnum.WEBSITE.getCode());
+        Integer commentCount = commentMapper.selectCount(queryWrapper);
+
+        Integer commentUserCount = commentMapper.getNameCount();
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("commentCount", commentCount);
+        map.put("commentUserCount", commentUserCount);
+        return ResultSet.success(map);
     }
 }

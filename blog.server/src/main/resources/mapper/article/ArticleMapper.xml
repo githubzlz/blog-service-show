@@ -134,7 +134,7 @@
             LEFT JOIN blog_content c ON a.id = c.blog_id
             LEFT JOIN blog_public_info p ON a.id = p.blog_id
             LEFT JOIN blog_recommend r ON a.id = r.id
-        WHERE a.img_src LIKE '%https://www.zlztsb.com%'
+        WHERE a.img_src LIKE '%https://www.zlztsb.com%' AND a.is_deleted = 0
         ORDER BY orderNum DESC
         LIMIT #{num}
     </select>

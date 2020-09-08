@@ -19,6 +19,7 @@ import com.zlz.blog.server.blog.service.ArticleContentService;
 import com.zlz.blog.server.blog.service.ArticlePublicInfoService;
 import com.zlz.blog.server.blog.service.ArticleService;
 import com.zlz.blog.server.blog.service.ArticleTagService;
+import com.zlz.blog.server.manage.service.WebStatisticsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,6 +47,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticlePublicInfoService publicInfoService;
     @Resource
     private ArticleTagService tagService;
+    @Resource
+    private WebStatisticsService webStatisticsService;
 
     @Override
     public ResultSet queryArticle(Long id, HttpServletRequest request) {
@@ -72,6 +75,12 @@ public class ArticleServiceImpl implements ArticleService {
         BlogPublicInfo blogPublicInfo = (BlogPublicInfo) resultSet1.getEntity();
         blogArticle.setBlogPublicInfos(blogPublicInfo);
 
+        //增加网站文章总阅读量
+        webStatisticsService.addReadingToday();
+
+        //增加文章浏览量
+        addViewNumber(id);
+
         return ResultSet.success(blogArticle);
     }
 
@@ -90,7 +99,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ResultSet filing(Integer num, Integer type) {
         QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("blog_type", type).select("id", "created_time", "blog_type").orderByAsc("created_time");
+        queryWrapper.eq("blog_type", type)
+                .eq("is_deleted", ArticleConstants.IS_NOT_DELETED)
+                .select("id", "created_time", "blog_type")
+                .orderByAsc("created_time");
         List<BlogArticle> blogArticles = articleMapper.selectList(queryWrapper);
         if (blogArticles.isEmpty()) {
             return ResultSet.success();

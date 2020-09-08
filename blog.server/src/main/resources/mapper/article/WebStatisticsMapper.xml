@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.blog.server.manage.mapper.WebStatisticsMapper">
+
+    <update id="addWebInfo">
+        UPDATE web_statistics
+            <if test="type == 1">
+                SET pv_today = pv_today + 1,pv_total = pv_total + 1
+            </if>
+            <if test="type == 2">
+                SET reading_today = reading_today + 1,reading_total = reading_total + 1
+            </if>
+            <if test="type == 3">
+                SET blog_today = blog_today + 1,blog_total = blog_total + 1
+            </if>
+            <if test="type == 4">
+                SET user_today = user_today + 1,user_total = user_total + 1
+            </if>
+            <if test="type == 5">
+                SET message_today = message_today + 1,message_total = message_total + 1
+            </if>
+        WHERE date = #{date}
+    </update>
+</mapper>

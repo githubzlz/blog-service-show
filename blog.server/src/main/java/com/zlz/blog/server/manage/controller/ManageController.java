@@ -42,4 +42,13 @@ public class ManageController {
     public ResultSet getTime() {
         return ResultSet.success("查询成功", new Date());
     }
+
+    /**
+     * 访问页面时会被调用
+     * @return
+     */
+    @GetMapping("/visit")
+    public ResultSet visit() {
+        return ResultSet.success("调用成功");
+    }
 }

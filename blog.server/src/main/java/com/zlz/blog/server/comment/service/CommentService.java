@@ -42,4 +42,10 @@ public interface CommentService {
      * @return
      */
     ResultSet personalLetter(WebLeaveWord webLeaveWord);
+
+    /**
+     * 数量统计
+     * @return
+     */
+    ResultSet commentNumInfo();
 }

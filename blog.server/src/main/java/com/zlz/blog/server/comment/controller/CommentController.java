@@ -63,4 +63,13 @@ public class CommentController {
     public ResultSet personalLetter(@RequestBody @Valid WebLeaveWord webLeaveWord) {
         return commentService.personalLetter(webLeaveWord);
     }
+
+    /**
+     * 评论数量
+     * @return
+     */
+    @GetMapping("/info")
+    public ResultSet commentNumInfo(){
+        return commentService.commentNumInfo();
+    }
 }
