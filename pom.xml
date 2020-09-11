@@ -6,7 +6,7 @@
     <artifactId>blog-service</artifactId>
     <version>1.0.0.RELEASE</version>
     <packaging>pom</packaging>
-    <description>blog</description>
+    <description>blogs</description>
 
     <modules>
         <module>blog.server</module>
